@@ -24,9 +24,8 @@ root.render(
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [randomImage, setRandomImage] = useState('');
 
-  const [imageData, setImageData] = useState(null);
+  const [imageData, setImageData] = useState('');
 
   useEffect(() => {image()},[])
 
@@ -34,7 +33,6 @@ function App() {
     setIsLoading(true)
     fetch('https://picsum.photos/450/720')
       .then(response => {
-        setRandomImage(response.url)
         const xhr = new XMLHttpRequest();
         xhr.open('GET', response.url, true);
         xhr.responseType = 'blob';
