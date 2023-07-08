@@ -17,9 +17,9 @@ code {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #282c3423;
+  background-color: rgb(215, 215, 215);
   min-width: 20vw;
-  color: white;
+  color: #ffffff;
   margin: 5vh;
 }
 
@@ -28,7 +28,7 @@ code {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16/9;
+  aspect-ratio: 9/16;
   width: 450px;
 }
 
@@ -38,6 +38,7 @@ code {
   object-fit: cover;
   border-radius: 9px;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 
@@ -70,9 +71,3 @@ code {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 0px 32px;
 }
 
-.skeletone {
-  height: 720px;
-  width: 450px;
-  z-index: 1234;
-  background-color: rgb(61, 104, 104);
-}
