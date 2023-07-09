@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Skeleton,{ SkeletonTheme } from 'react-loading-skeleton'
@@ -21,64 +20,125 @@ root.render(
   </React.StrictMode>
 );
 
+class ImageComponent extends React.Component {
 
-function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageUrl: null,
+      imageId: null,
+      shareURL: null,
+      result: null,
+      isLoading: true
+    };
+  }
 
-  const [imageData, setImageData] = useState('');
 
-  useEffect(() => {image()},[])
+  componentDidMount() {
+    this.updateImage();
+  }
 
-  function image() {
-    setIsLoading(true)
-    fetch('https://picsum.photos/450/720')
-      .then(response => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', response.url, true);
-        xhr.responseType = 'blob';
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            const blob = new Blob([xhr.response], { type: 'image/jpeg' });
-            const url = URL.createObjectURL(blob);
-            setImageData(url);
-          }
-        };
-        xhr.send();
-        // document.getElementById('link').setAttribute('content', response.url)
+  updateImage = () => {
+    this.setState({isLoading: true});
+    fetch('https://picsum.photos/720/450')
+      .then((response) => {
+        this.setState({ imageUrl: response.url });
+        this.extractIdFromLink(response.url)
       })
-      .then(() => {setIsLoading(false)})
-      .catch(error => console.log(error));
+      .then(() => {this.setState({isLoading: false})})
+      .catch((error) => {
+        console.error('update image Error'+error);
+      });
+  }
+
+  extractIdFromLink(prop) {
+
+    if(prop!==null) {
+      let url = prop;
+      let id = url.split('/')[4];
+
+      this.setState({imageId: id});
+      this.fetchImageUrl(id);
     }
-      
-      
+    else {
+      console.log('prop----waiting......');
+      setTimeout(this.extractIdFromLink, 300);
+    }
+  }
 
-  
-  
 
-  return (
-    <div className='container' >
-      <SkeletonTheme baseColor="#595959" highlightColor="#bfbfbf" >
-      <div className="picture">
-        {isLoading?
-        <Skeleton height={720} width={450} />:
-        <>
-        <img src={imageData}  alt="randomImage" id="image-preview" onClick={image}/></>}
+
+  fetchImageUrl(id) {
+    const url = `https://picsum.photos/id/${id}/info`;
+
+    const check = () => {
+      if(url!==null){
+        fetch(url)
+        .then(response => response.text())
+        .then(result => {this.setState({result: result})})
+        .then(() => {this.fetchShareUrl();})
+        .catch(error => {
+          console.error('Fetch Iamage Error Error:', error);
+        });
+      }
+      else{
+        setTimeout(check, 300);
+      }
+    }
+    check();
+  }
+
+  fetchShareUrl() {
+    const check = () => {
+      let result = this.state.result;
+      result = this.state.result;
+
+      if(result!==null){
+        var jsonObject = JSON.parse(result);
+        var url = jsonObject.url;
+        this.setState({shareURL: url});
+      }
+      else {
+        console.log('result----waiting......');
+        setTimeout(check, 300);
+      }
+    }
+    check();
+  }
+
+
+  render() {
+    const imageUrl = this.state.imageUrl;
+    const shareURL = this.state.shareURL;
+    
+    return (
+      <div className='container' >
+        <SkeletonTheme baseColor="#595959" highlightColor="#bfbfbf" >
+          <div className="picture">
+
+            {this.state.isLoading ? <Skeleton /> :
+            <img src={imageUrl} alt="randomImage" id="image-preview" onClick={this.updateImage} />}
+          </div>
+          <div className="share">
+            <FacebookShareButton url={shareURL} >
+              <FacebookIcon size={48} round={false} />
+            </FacebookShareButton>
+            <TwitterShareButton url={shareURL} >
+              <TwitterIcon size={48} round={false} />
+            </TwitterShareButton>
+            <WhatsappShareButton url={shareURL} >
+              <WhatsappIcon size={48} round={false} />
+            </WhatsappShareButton>
+          </div>
+        </SkeletonTheme>
       </div>
-      <div className="share">
-        <FacebookShareButton url={imageData} >
-          <FacebookIcon size={48} round={false} />
-        </FacebookShareButton>
-        <TwitterShareButton url={imageData} >
-          <TwitterIcon size={48} round={false} />
-        </TwitterShareButton>
-        <WhatsappShareButton url={imageData} >
-          <WhatsappIcon size={48}  round={false} />
-        </WhatsappShareButton>
-      </div>
-      </SkeletonTheme>
-      <div>
-    </div>
-    </div>
-  )
+    )
+  }
+
 }
 
+function App() {
+  return (
+    <ImageComponent />
+  );
+}
