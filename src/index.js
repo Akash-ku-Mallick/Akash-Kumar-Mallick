@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Skeleton,{ SkeletonTheme } from 'react-loading-skeleton'
@@ -25,9 +25,9 @@ root.render(
 
 function ImageComponent() {
   const [imageUrl, setImageUrl] = useState(null);
-  const [imageId, setImageId] = useState(null); 
+  const [imageId, setImageId] = useState(174); 
   const [shareURL, setShareURL] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   function handleMouseMove(event) {
@@ -44,7 +44,7 @@ function ImageComponent() {
     } else if (randomNumber < 0.75) {
       return '720/1080'; // Widescreen
     } else {
-      return '2160:1080'; // Panoramic
+      return '2160/1080'; // Panoramic
     }
   }
 
@@ -85,11 +85,9 @@ function ImageComponent() {
       });
   }
 
-  useEffect(function () {
-    updateImage();
-  }, []);
 
   return (
+      <>
       <div className='container' >
         <SkeletonTheme baseColor="#595959" highlightColor="#bfbfbf" >
           <div className="picture tooltip" onMouseMoveCapture={(event)=>{handleMouseMove(event)}}>
@@ -120,6 +118,8 @@ function ImageComponent() {
           </div>
         </SkeletonTheme>
       </div>
+      <span className="footer"> Follow me <a href="https://github.com/Akash-ku-Mallick">{" "}@Akash{" "}</a></span>
+      </>
     )
 }
 

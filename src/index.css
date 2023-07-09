@@ -1,6 +1,8 @@
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -21,7 +23,9 @@ code {
   min-width: 20vw;
   color: #ffffff;
   margin-inline: 5vh;
-  margin-top: 5vh;
+  margin-top: 2vh;
+  overflow: hidden;
+  padding-top: 2vh;
 }
 
 .picture {
@@ -92,4 +96,29 @@ code {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  color: #000000;
+  margin-inline: 5vh;
+  margin-top: 2px;
+  overflow: hidden;
+  font-family: 'Courier New', 'Oxygen';
+}
+
+.footer a {
+  color: #1b0321;
+  text-decoration: none;
+  margin-left: 5px;
+  font-family: system-ui, 'Segoe UI','Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.footer a:hover {
+  color: #1f0d2d;
+  background-color: rgba(126, 178, 178, 0.377);
 }
