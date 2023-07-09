@@ -108,8 +108,6 @@ class ImageComponent extends React.Component {
 
 
   render() {
-    const imageUrl = this.state.imageUrl;
-    const shareURL = this.state.shareURL;
     
     return (
       <div className='container' >
@@ -117,16 +115,16 @@ class ImageComponent extends React.Component {
           <div className="picture">
 
             {this.state.isLoading ? <Skeleton /> :
-            <img src={imageUrl} alt="randomImage" id="image-preview" onClick={this.updateImage} />}
+            <img src={this.state.imageUrl} alt="randomImage" id="image-preview" onClick={this.updateImage} />}
           </div>
           <div className="share">
-            <FacebookShareButton url={shareURL} >
+            <FacebookShareButton url={this.state.shareURL} >
               <FacebookIcon size={48} round={false} />
             </FacebookShareButton>
-            <TwitterShareButton url={shareURL} >
+            <TwitterShareButton url={this.state.shareURL} >
               <TwitterIcon size={48} round={false} />
             </TwitterShareButton>
-            <WhatsappShareButton url={shareURL} >
+            <WhatsappShareButton url={this.state.shareURL} >
               <WhatsappIcon size={48} round={false} />
             </WhatsappShareButton>
           </div>
